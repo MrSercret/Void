@@ -2,7 +2,6 @@
 *.vssscc
 /build/
 *.suo
-*.user
 _ReSharper.*/
 *.sdf
 bin/
