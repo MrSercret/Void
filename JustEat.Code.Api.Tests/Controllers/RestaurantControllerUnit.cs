@@ -12,14 +12,14 @@ namespace JustEat.Code.Api.Tests.Controllers
     public class RestaurantControllerUnit
     {
         private const string Category = "Unit";
-        private Mock<IRestaurantService> _service;
+        private Mock<IRestaurantService> _mockIService;
         private RestaurantController _controller;
 
         [SetUp]
         public void TestInit()
         {
-            _service = new Mock<IRestaurantService>();
-            _controller = new RestaurantController(_service.Object);
+            _mockIService = new Mock<IRestaurantService>();
+            _controller = new RestaurantController(_mockIService.Object);
         }
 
         [TestCase("")]
@@ -42,7 +42,7 @@ namespace JustEat.Code.Api.Tests.Controllers
 
             IEnumerable<RestaurantDTO> restaurants = null;
 
-            _service.Setup(x => x.Get(It.IsAny<string>())).Returns(restaurants);
+            _mockIService.Setup(x => x.Get(It.IsAny<string>())).Returns(restaurants);
 
             var actual = _controller.Get("SE19").GetType();
 
@@ -55,7 +55,7 @@ namespace JustEat.Code.Api.Tests.Controllers
         {
             var expected = typeof(OkNegotiatedContentResult<IEnumerable<RestaurantDTO>>);
 
-            _service.Setup(x => x.Get(It.IsAny<string>())).Returns(new List<RestaurantDTO>());
+            _mockIService.Setup(x => x.Get(It.IsAny<string>())).Returns(new List<RestaurantDTO>());
 
             var actual = _controller.Get("SE19").GetType();
 
@@ -67,7 +67,7 @@ namespace JustEat.Code.Api.Tests.Controllers
         public void Get_Should_Call_Service_Method_Get_Just_Once()
         {
             _controller.Get("SE16");
-            _service.Verify(x => x.Get(It.IsAny<string>()), Times.Once());
+            _mockIService.Verify(x => x.Get(It.IsAny<string>()), Times.Once());
         }
     }
 }
